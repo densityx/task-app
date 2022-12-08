@@ -1,8 +1,5 @@
 import Header from "../components/Header";
-import {
-    Container,
-    Main,
-} from "../components/Common";
+import {Container, Main,} from "../components/Common";
 import {useCallback, useEffect, useState} from "react";
 import {getDashboard, getTasks} from "../services/api";
 import NoTask from "../components/tasks/NoTask";
@@ -64,7 +61,7 @@ export default function Dashboard() {
 
     return (
         <>
-            {/*<Header/>*/}
+            <Header/>
 
             {modal.open && (
                 <CreateTask
@@ -77,7 +74,7 @@ export default function Dashboard() {
                 {loading ? (<Skeleton/>) : (
                     hasTasks ? (
                         <Container>
-                            {/*<DashboardStats/>*/}
+                            <DashboardStats/>
 
                             <AllTasks
                                 modal={modal}

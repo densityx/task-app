@@ -1,5 +1,5 @@
-import './styles/normalize.css'
-import './styles/app.css'
+import './normalize.css'
+import './app.css'
 
 import React from 'react'
 import store from './store/store'
