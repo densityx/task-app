@@ -163,8 +163,9 @@
     margin-top: 24px;
 }
 
-.mt-34 {
+.my-34 {
     margin-top: 34px;
+    margin-bottom: 34px;
 }
 
 .mb-9 {
@@ -350,6 +351,33 @@
     }
 }
 
+/** cursor utils */
+.cursor-pointer:hover {
+    cursor: pointer;
+}
+
+/** profile picture */
+.profile-picture-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profile-picture {
+    width: 72px;
+}
+
+/** modal open */
+.modal-open {
+    position: relative;
+    overflow: hidden;
+    touch-action: none;
+    padding-right: 15px;
+}
 
 /*a {*/
 /*  font-weight: 500;*/

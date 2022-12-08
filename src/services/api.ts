@@ -1,24 +1,29 @@
-import axios from "axios";
-
-import {
-    TDCX_BASE_API,
-    DELETE_TASKS_API,
-    GET_DASHBOARD_API,
-    GET_TASKS_API,
-    POST_LOGIN_API,
-    POST_TASKS_API,
-    PUT_TASKS_API,
-} from "../constants/urls";
+import axios, {AxiosRequestConfig} from "axios";
 
 /**
  * Axios Instance
  */
-const axiosProvider = axios.create({
-    baseURL: TDCX_BASE_API,
-    // timeout: 1000,
-    headers: {'Accept': 'application/json'}
+const axiosInstance = axios.create({
+    baseURL: `https://dev-dl.tdcx.com:3092`,
+    headers: {
+        'Accept': 'application/json'
+    }
 });
 
+/** ======================================
+ * Interceptors the axios request
+ * ======================================= */
+axiosInstance.interceptors.request.use((requestConfig: AxiosRequestConfig) => {
+    if (sessionStorage.getItem('persistantState')) {
+        // @ts-ignore
+        const {user: {user: {token}}} = JSON.parse(sessionStorage.getItem('persistantState'));
+
+        // @ts-ignore
+        requestConfig.headers.Authorization = token;
+    }
+
+    return requestConfig;
+});
 
 /**
  * Login API
@@ -27,7 +32,7 @@ const axiosProvider = axios.create({
  * @param key
  */
 export const performLogin = async ({name, key}: { name: string, key: string }) => {
-    return await axiosProvider.post(POST_LOGIN_API, {
+    return await axiosInstance.post(`/login`, {
         "name": name,
         "apiKey": key,
     }).catch(error => {
@@ -39,11 +44,7 @@ export const performLogin = async ({name, key}: { name: string, key: string }) =
  * Get dashboard data
  */
 export const getDashboard = async () => {
-    return await axiosProvider.get(GET_DASHBOARD_API, {
-        headers: {
-            'Authorization': sessionStorage.getItem('token')
-        }
-    })
+    return await axiosInstance.get(`/dashboard`)
         .catch(error => {
             console.log(error.message)
         });
@@ -53,11 +54,7 @@ export const getDashboard = async () => {
  * Get all tasks
  */
 export const getTasks = async () => {
-    return await axiosProvider.get(GET_TASKS_API, {
-        headers: {
-            'Authorization': sessionStorage.getItem('token')
-        }
-    })
+    return await axiosInstance.get(`/tasks`)
         .catch(error => {
             console.log(error.message)
         });
@@ -67,13 +64,9 @@ export const getTasks = async () => {
  * Create new task
  */
 export const createTask = async (data: any) => {
-    return await axiosProvider.post(POST_TASKS_API, {
+    return await axiosInstance.post(`/tasks`, {
         name: data.name,
         completed: data.completed
-    }, {
-        headers: {
-            'Authorization': sessionStorage.getItem('token')
-        }
     })
         .catch(error => {
             console.log(error.message)
@@ -84,13 +77,9 @@ export const createTask = async (data: any) => {
  * Update existing task
  */
 export const updateTask = async (data: any) => {
-    return await axiosProvider.put(`${PUT_TASKS_API}/${data.id}`, {
+    return await axiosInstance.put(`/tasks/${data.id}`, {
         name: data.name,
         completed: data.completed
-    }, {
-        headers: {
-            'Authorization': sessionStorage.getItem('token')
-        }
     })
         .catch(error => {
             console.log(error.message)
@@ -100,12 +89,8 @@ export const updateTask = async (data: any) => {
 /**
  * Delete existing task
  */
-export const deleteTask = async (data: any) => {
-    return await axiosProvider.delete(`${DELETE_TASKS_API}/${data.id}`, {
-        headers: {
-            'Authorization': sessionStorage.getItem('token')
-        }
-    })
+export const deleteTask = async (id: string) => {
+    return await axiosInstance.delete(`/tasks/${id}`)
         .catch(error => {
             console.log(error.message)
         });

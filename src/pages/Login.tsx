@@ -1,21 +1,24 @@
 import {Button, Card, Heading, Input, Main} from "../components/Common";
 import {useCallback, useEffect, useState} from "react";
 import {performLogin} from "../services/api";
-import {setUser} from "../store/redux/userSlice";
-import {useAppDispatch} from "../store/hooks";
+import {selectAuthUser, setUser} from "../store/redux/userSlice";
+import {useAppDispatch, useAppSelector} from "../store/hooks";
 import {useNavigate} from "react-router-dom";
 
 export default function Login() {
+    let navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const [id, setId] = useState('038fde7691289d58');
     const [name, setName] = useState('John Doe');
-    const dispatch = useAppDispatch();
-    let navigate = useNavigate();
+    const authUser = useAppSelector(selectAuthUser)
 
     useEffect(() => {
-        if (!!sessionStorage.getItem('token')) {
+        document.title = 'Login to Task App';
+
+        if (authUser?.token !== '') {
             navigate('/dashboard');
         }
-    }, []);
+    }, [authUser]);
 
     const handleLogin = useCallback(async () => {
         let {data, status} = await performLogin({
@@ -35,7 +38,7 @@ export default function Login() {
     }, []);
 
     return (
-        <Main>
+        <Main loginPage>
             <Card className={'flex flex-column w-296 p-24'}>
                 <Heading>Login</Heading>
 

@@ -1,4 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {AppState} from "../store";
 
 export interface TaskState {
     name: string;
@@ -6,21 +7,63 @@ export interface TaskState {
 }
 
 export interface TaskListState {
-    tasks: TaskState[]
+    tasks: TaskState[];
 }
 
 const initialState: TaskListState = {
-    tasks: []
+    tasks: [],
 };
 
 export const taskSlice = createSlice({
     name: 'task',
     initialState,
     reducers: {
-        addTasks: (state, action: PayloadAction<TaskState>) => {
-            state.tasks.push(action.payload)
+        toggleTaskComplete: (state, action: PayloadAction<TaskState>) => {
+            state.tasks.map(task => {
+                if (task._id === action.payload._id) {
+                    task.completed = action.payload.completed
+                }
+
+                return task;
+            });
         },
-    }
+
+        addOrUpdateTask: (state, action: PayloadAction<{}>) => {
+            if (action.payload.type === 'create') {
+                state.tasks.push(action.payload.task)
+            } else {
+                state.tasks.map(task => {
+                    if (task._id === action.payload.task._id) {
+                        task.name = action.payload.task.name
+                    }
+
+                    return task;
+                });
+            }
+        },
+
+        addTasks: (state, action: PayloadAction<TaskState[]>) => {
+            state.tasks = action.payload;
+        },
+
+        removeTask: (state, action: PayloadAction<string>) => {
+            state.tasks = state.tasks.filter(task => task._id !== action.payload)
+        },
+
+        clearTasksData: (state) => {
+            state.tasks = [];
+        }
+    },
 });
+
+export const {
+    toggleTaskComplete,
+    addOrUpdateTask,
+    addTasks,
+    removeTask,
+    clearTasksData
+} = taskSlice.actions;
+
+export const selectHasTasks = (state: AppState) => state.task.tasks.length > 0;
 
 export default taskSlice.reducer;

@@ -1,6 +1,10 @@
 import {Card, Grid, Heading, Pie} from "./Common";
+import {useAppSelector} from "../store/hooks";
+import {selectDashboardStats} from "../store/redux/dashboardSlice";
 
-export default function DashboardStats({stats}) {
+export default function DashboardStats() {
+    const stats = useAppSelector(selectDashboardStats);
+
     return (
         <Grid>
             <Card
@@ -32,7 +36,7 @@ export default function DashboardStats({stats}) {
                 <ul className={'mt-12 stats-list'}>
                     {stats?.latestTasks.map((task, index) => (
                         <li className={'stats-item'} key={index}>
-                            {task.checked ? (<s>{task.name}</s>) : task.name}
+                            {task.completed ? (<s>{task.name}</s>) : task.name}
                         </li>
                     ))}
                 </ul>

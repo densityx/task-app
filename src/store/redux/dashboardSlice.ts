@@ -4,7 +4,7 @@ import {AppState} from "../store";
 import {userSlice} from "./userSlice";
 
 export interface DashboardState {
-    tasks: {
+    stats: {
         tasksCompleted: number;
         totalTasks: number;
         latestTasks: TaskState[];
@@ -12,32 +12,36 @@ export interface DashboardState {
 }
 
 const initialState: DashboardState = {
-    tasks: {
-        tasksCompleted: 10,
-        totalTasks: 19,
-        latestTasks: [
-            {
-                name: "Refactor something",
-                completed: false
-            }
-        ]
+    stats: {
+        tasksCompleted: 0,
+        totalTasks: 0,
+        latestTasks: []
     }
 };
 
 export const dashboardSlice = createSlice({
-    name: 'task',
+    name: 'dashboard',
     initialState,
     reducers: {
-        setDashboardData: (state, action: PayloadAction<DashboardState>) => {
-            state.tasks = action.payload.tasks
+        setDashboardStats: (state, action: PayloadAction<DashboardState>) => {
+            state.stats = action.payload.stats;
         },
+
+        clearDashboardData: (state) => {
+            state.stats = {
+                tasksCompleted: 0,
+                totalTasks: 0,
+                latestTasks: []
+            };
+        }
     }
 });
 
 export const {
-    setDashboardData,
+    setDashboardStats,
+    clearDashboardData
 } = dashboardSlice.actions;
 
-export const selectDashboardData = (state: AppState) => state.dashboard.tasks;
+export const selectDashboardStats = (state: AppState) => state.dashboard.stats;
 
 export default dashboardSlice.reducer;

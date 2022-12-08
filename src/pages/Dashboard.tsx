@@ -1,16 +1,7 @@
 import Header from "../components/Header";
 import {
-    Button,
-    Card,
     Container,
-    Grid,
-    Heading,
-    Input,
     Main,
-    Modal,
-    ModalContainer,
-    Pie,
-    SearchInput
 } from "../components/Common";
 import {useCallback, useEffect, useState} from "react";
 import {getDashboard, getTasks} from "../services/api";
@@ -18,51 +9,86 @@ import NoTask from "../components/tasks/NoTask";
 import CreateTask from "../components/tasks/CreateTask";
 import DashboardStats from "../components/DashboardStats";
 import AllTasks from "../components/tasks/AllTasks";
+import {useSelector} from "react-redux";
+import {addTasks, selectHasTasks} from "../store/redux/taskSlice";
+import {useAppDispatch} from "../store/hooks";
+import Skeleton from "../components/Skeleton";
+import {setDashboardStats} from "../store/redux/dashboardSlice";
+import {selectAuthUser} from "../store/redux/userSlice";
+import {useNavigate} from "react-router-dom";
 
 export default function Dashboard() {
-    const [modal, setModal] = useState(false);
-    const [dashboard, setDashboard] = useState({
-        latestTasks: [],
-        tasksCompleted: 0,
-        totalTasks: 0,
+    const dispatch = useAppDispatch();
+    const hasTasks = useSelector(selectHasTasks);
+    const [loading, setLoading] = useState(false);
+    const authUser = useSelector(selectAuthUser);
+    let navigate = useNavigate();
+
+    const [modal, setModal] = useState({
+        open: false,
+        id: null,
     });
 
-    const retrieveData = useCallback(async () => {
-        /** get dashboard data */
-        let {data} = await getDashboard();
-        setDashboard((prev) => ({
-            latestTasks: data.latestTasks,
-            tasksCompleted: data.tasksCompleted,
-            totalTasks: data.totalTasks,
+    const retrieveDashboardData = useCallback(async () => {
+        let {data: {latestTasks, tasksCompleted, totalTasks}} = await getDashboard();
+
+        dispatch(setDashboardStats({
+            stats: {
+                latestTasks,
+                tasksCompleted,
+                totalTasks,
+            }
         }))
-    }, []);
+    }, [authUser]);
+
+    const retrieveTasksData = useCallback(async () => {
+        const {data: {tasks}} = await getTasks();
+
+        dispatch(addTasks(tasks))
+    }, [authUser]);
 
     useEffect(() => {
-        retrieveData();
-    }, [retrieveData])
+        setLoading(true);
+
+        Promise
+            .all([retrieveDashboardData(), retrieveTasksData()])
+            .then(() => setLoading(false))
+    }, [retrieveDashboardData, retrieveTasksData]);
+
+    useEffect(() => {
+        document.title = 'All Tasks | Task App';
+
+        if (authUser?.token === '') {
+            navigate('/');
+        }
+    }, [])
 
     return (
         <>
             <Header/>
 
-            <Main>
+            {modal.open && (
                 <CreateTask
-                    modalOpen={modal}
-                    handleOpenModal={() => setModal(false)}
+                    modal={modal}
+                    handleOpenModal={(open: boolean) => setModal({open, id: null})}
                 />
+            )}
 
-                {dashboard.totalTasks ? (
-                    <Container>
-                        <DashboardStats stats={dashboard}/>
+            <Main>
+                {loading ? (<Skeleton/>) : (
+                    hasTasks ? (
+                        <Container>
+                            {/*<DashboardStats/>*/}
 
-                        <AllTasks
-                            handleOpenModal={() => setModal(!modal)}
-                        />
-                    </Container>
-                ) : (
-                    <NoTask
-                        handleOpenModal={() => setModal(!modal)}
-                    />
+                            <AllTasks
+                                modal={modal}
+                                handleOpenModal={(open: boolean, id: string) => setModal({open, id})}
+                                retrieveDashboardData={retrieveDashboardData}
+                            />
+                        </Container>
+                    ) : (
+                        <NoTask handleOpenModal={(open: boolean) => setModal({open, id: null})}/>
+                    )
                 )}
             </Main>
         </>

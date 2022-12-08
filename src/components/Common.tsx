@@ -27,14 +27,15 @@ const breakpoints = [640, 1024];
 
 const mq = breakpoints.map(bp => `@media (min-width: ${bp}px)`)
 
-export const Main = styled.main({
+export const Main = styled.main((props: { loginPage?: boolean }) => ({
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center',
+    marginTop: props.loginPage ? 0 : '22px',
+    justifyContent: props.loginPage ? 'center' : 'flex-start',
     height: '100vh',
     width: '100%',
-})
+}))
 
 export const Container = styled.div({
     width: '100%',
@@ -84,19 +85,18 @@ export const Card = styled.div((props: { shadow?: string, smBorder?: boolean }) 
 }));
 
 export const ModalContainer = styled.div({
-    position: 'absolute',
+    position: 'fixed',
     top: 0,
     left: 0,
-    right: 0,
-    bottom: 0,
     zIndex: 10,
+    // marginTop: '-22px',
     display: 'flex',
     [mq[0]]: {
         alignItems: 'center',
     },
     justifyContent: 'center',
     backgroundColor: '#00000033',
-    height: '100vh',
+    height: '100%',
     width: '100%',
 });
 
