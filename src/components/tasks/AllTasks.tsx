@@ -51,7 +51,7 @@ export default function AllTasks({handleOpenModal, retrieveDashboardData}: AllTa
 
                 <div className={'flex flex-column md:flex-row items-center w-full sm:w-auto'}>
                     <div className={'search-input-container mt-8 sm:mt-0'}>
-                        <img className={'search-icon'} src="/src/assets/search-icon.png" alt="Search Icon"/>
+                        <img className={'search-icon'} src="/search-icon.png" alt="Search Icon"/>
 
                         <SearchInput
                             placeholder={'Search by task name'}
@@ -94,14 +94,14 @@ export default function AllTasks({handleOpenModal, retrieveDashboardData}: AllTa
                                 className={'inline-flex cursor-pointer'}
                                 onClick={() => handleEditTask(task?._id)}
                             >
-                                <img src="/src/assets/pen-icon.png" alt="Pen Icon"/>
+                                <img src="/pen-icon.png" alt="Pen Icon"/>
                             </span>
 
                             <span
                                 className={'inline-flex cursor-pointer ml-16'}
                                 onClick={() => handleDeleteTask(task?._id)}
                             >
-                                <img src="/src/assets/trash-icon.png" alt="Trash Icon"/>
+                                <img src="/trash-icon.png" alt="Trash Icon"/>
                             </span>
                         </div>
                     </div>
