@@ -1,5 +1,5 @@
-import {Card, Heading, Main} from "../components/Common";
 import {useEffect} from "react";
+import {Card, Heading, Main} from "../components/Common";
 
 export default function PageNotFound() {
     useEffect(() => {

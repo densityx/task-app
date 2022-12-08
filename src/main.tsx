@@ -1,15 +1,15 @@
-import './normalize.css'
-import './app.css'
+import './styles/app.css'
+import './styles/normalize.css'
 
 import React from 'react'
 import store from './store/store'
 import Login from "./pages/Login";
+import Logout from "./pages/Logout";
 import {Provider} from 'react-redux'
 import ReactDOM from 'react-dom/client'
 import Dashboard from "./pages/Dashboard";
 import PageNotFound from "./pages/PageNotFound";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import Logout from "./pages/Logout";
 
 const router = createBrowserRouter([
     {path: '/', element: <Login/>},

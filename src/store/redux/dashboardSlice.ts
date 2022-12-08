@@ -1,6 +1,6 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {TaskState} from "./taskSlice";
 import {AppState} from "../store";
+import {TaskState} from "./taskSlice";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export interface DashboardState {
     stats: {

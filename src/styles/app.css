@@ -1,3 +1,7 @@
+/** =========================
+ * Default Variables
+ * ==========================
+ */
 :root {
     --primary-color: #5285EC;
     --text-color: #537178;
@@ -7,23 +11,6 @@
 
     font-family: var(--fonts-family);
     background-color: var(--bg-color);
-}
-
-/* Hide scrollbar for Chrome, Safari and Opera */
-/*body::-webkit-scrollbar {*/
-/*    display: none;*/
-/*}*/
-
-/*!* Hide scrollbar for IE, Edge and Firefox *!*/
-/*body {*/
-/*    -ms-overflow-style: none; !* IE and Edge *!*/
-/*    scrollbar-width: none; !* Firefox *!*/
-/*}*/
-
-/** checkbox utils */
-.checkbox {
-    width: 19px;
-    height: 19px;
 }
 
 /** =========================
@@ -75,9 +62,10 @@
     width: 100%;
 }
 
-/**
- * Utilities Specific Styling
- */
+/** position utils */
+.relative {
+    position: relative;
+}
 
 /** display utils */
 .inline-flex {
@@ -247,11 +235,6 @@
     text-align: center;
 }
 
-/** position utils */
-.relative {
-    position: relative;
-}
-
 /** input utils */
 .search-input-container {
     display: flex;
@@ -267,8 +250,12 @@
     height: 16px;
 }
 
-/** checkbox */
-/* The container */
+/** checkbox utils */
+.checkbox {
+    width: 19px;
+    height: 19px;
+}
+
 .checkbox-container {
     display: block;
     position: relative;
@@ -337,7 +324,7 @@
     transform: rotate(45deg);
 }
 
-/** animation */
+/** animation  utils */
 .animate-pulse {
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
@@ -371,10 +358,15 @@
     width: 72px;
 }
 
-/** modal open */
+/** modal utils */
 .modal-open {
     position: relative;
     overflow: hidden;
     touch-action: none;
-    padding-right: 15px;
+}
+
+@media (min-width: 640px) {
+    .modal-open {
+        padding-right: 15px;
+    }
 }

@@ -1,32 +1,8 @@
-import {Action, configureStore, ThunkAction} from '@reduxjs/toolkit'
 import taskSlice from "./redux/taskSlice";
 import userReducer from './redux/userSlice'
 import dashboardReducer from './redux/dashboardSlice'
-
-// import commonReducer from './redux/commonSlice'
-
-// convert object to string and store in sessionStorage
-function saveToLocalStorage(state: any) {
-    try {
-        const serialisedState = JSON.stringify(state);
-        sessionStorage.setItem("persistantState", serialisedState);
-    } catch (e) {
-        console.warn(e);
-    }
-}
-
-// load string from localStarage and convert into an Object
-// invalid output must be undefined
-function loadFromLocalStorage() {
-    try {
-        const serialisedState = sessionStorage.getItem("persistantState");
-        if (serialisedState === null) return undefined;
-        return JSON.parse(serialisedState);
-    } catch (e) {
-        console.warn(e);
-        return undefined;
-    }
-}
+import {Action, configureStore, ThunkAction} from '@reduxjs/toolkit'
+import {loadFromLocalStorage, saveToLocalStorage} from "../services/localStorage";
 
 export function makeStore() {
     return configureStore({

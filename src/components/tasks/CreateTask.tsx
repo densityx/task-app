@@ -1,10 +1,10 @@
-import {Button, Heading, Input, Modal, ModalContainer} from "../Common";
+import {useClickOutside} from "@mantine/hooks";
+import {ModalState} from "../../pages/Dashboard";
 import {useCallback, useEffect, useState} from "react";
 import {createTask, updateTask} from "../../services/api";
-import {useClickOutside} from "@mantine/hooks";
-import {addOrUpdateTask, TaskState} from "../../store/redux/taskSlice";
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
-import {ModalState} from "../../pages/Dashboard";
+import {addOrUpdateTask, TaskState} from "../../store/redux/taskSlice";
+import {Button, Heading, Input, Modal, ModalContainer} from "../Common";
 
 interface CreateTaskProps {
     modal: ModalState;

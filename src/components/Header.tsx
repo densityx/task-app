@@ -1,6 +1,6 @@
 import {useNavigate} from "react-router-dom";
-import {Container, Navbar, NavbarMenu} from "./Common";
 import {useAppSelector} from "../store/hooks";
+import {Container, Navbar, NavbarMenu} from "./Common";
 import {selectAuthUser} from "../store/redux/userSlice";
 
 export default function Header() {

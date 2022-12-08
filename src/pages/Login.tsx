@@ -1,9 +1,9 @@
-import {Button, Card, Heading, Input, Main} from "../components/Common";
-import {useCallback, useEffect, useState} from "react";
 import {performLogin} from "../services/api";
-import {selectAuthUser, setUser} from "../store/redux/userSlice";
-import {useAppDispatch, useAppSelector} from "../store/hooks";
 import {useNavigate} from "react-router-dom";
+import {useCallback, useEffect, useState} from "react";
+import {useAppDispatch, useAppSelector} from "../store/hooks";
+import {selectAuthUser, setUser} from "../store/redux/userSlice";
+import {Button, Card, Heading, Input, Main} from "../components/Common";
 
 export default function Login() {
     let navigate = useNavigate();

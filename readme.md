@@ -22,7 +22,7 @@ npm run dev
 
 To view the project live in production visit the link below
 
-- [Vercel]()
+- [Vercel](https://task-app-bay.vercel.app/)
 
 ## Run Test
 
@@ -34,9 +34,12 @@ npm run test
 
 ## Screenshots Preview
 
-<img src="public/img/1.png">
-<img src="public/img/2.png">
-<img src="public/img/3.png">
-<img src="public/img/4.png">
-<img src="public/img/5.png">
-<img src="public/img/6.png">
+<img src="public/1.png">
+<img src="public/2.png">
+<img src="public/3.png">
+<img src="public/4.png">
+<img src="public/5.png">
+<img src="public/6.png">
+<img src="public/7.png">
+<img src="public/8.png">
+<img src="public/9.png">
