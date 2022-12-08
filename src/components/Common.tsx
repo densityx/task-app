@@ -67,6 +67,10 @@ export const Button = styled.button({
     '&:hover': {
         cursor: 'pointer',
         opacity: '90%',
+    },
+    '&:disabled': {
+        opacity: '80%',
+        cursor: 'not-allowed'
     }
 });
 

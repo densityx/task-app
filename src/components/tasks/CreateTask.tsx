@@ -2,21 +2,23 @@ import {Button, Heading, Input, Modal, ModalContainer} from "../Common";
 import {useCallback, useEffect, useState} from "react";
 import {createTask, updateTask} from "../../services/api";
 import {useClickOutside} from "@mantine/hooks";
-import {addOrUpdateTask} from "../../store/redux/taskSlice";
+import {addOrUpdateTask, TaskState} from "../../store/redux/taskSlice";
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
+import {ModalState} from "../../pages/Dashboard";
 
 interface CreateTaskProps {
-    modal: boolean;
+    modal: ModalState;
     handleOpenModal: (open: boolean) => void;
 }
 
 export default function CreateTask({modal, handleOpenModal}: CreateTaskProps) {
     const dispatch = useAppDispatch();
-    const ref = useClickOutside(() => handleOpenModal(false));
     const [task, setTask] = useState('');
-    const taskToBeEdited = useAppSelector(state => state.task.tasks.find(task => task._id === modal.id));
+    const ref = useClickOutside(() => handleOpenModal(false));
+    const taskToBeEdited: TaskState | undefined = useAppSelector(state => state.task.tasks.find(task => task._id === modal.id));
 
     const handleUpdateOrCreate = useCallback(async () => {
+        // @ts-ignore
         let {data, status} = taskToBeEdited?._id
             ? await updateTask({
                 id: taskToBeEdited?._id,
@@ -41,6 +43,7 @@ export default function CreateTask({modal, handleOpenModal}: CreateTaskProps) {
 
     useEffect(() => {
         if (modal.id) {
+            // @ts-ignore
             setTask(taskToBeEdited.name)
         }
 
@@ -73,6 +76,7 @@ export default function CreateTask({modal, handleOpenModal}: CreateTaskProps) {
                 <Button
                     className={'mt-12 mb-9 block'}
                     onClick={handleUpdateOrCreate}
+                    disabled={task.length === 0}
                 >
                     {taskToBeEdited?._id ? 'Update Task' : '+ New Task'}
                 </Button>

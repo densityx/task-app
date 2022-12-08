@@ -21,6 +21,7 @@ export default function Login() {
     }, [authUser]);
 
     const handleLogin = useCallback(async () => {
+        // @ts-ignore
         let {data, status} = await performLogin({
             name,
             key: id,

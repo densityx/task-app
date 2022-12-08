@@ -34,7 +34,7 @@ export default function DashboardStats() {
                 <Heading>Latest Created Tasks</Heading>
 
                 <ul className={'mt-12 stats-list'}>
-                    {stats?.latestTasks.map((task, index) => (
+                    {[...stats?.latestTasks].reverse()?.map((task, index) => (
                         <li className={'stats-item'} key={index}>
                             {task.completed ? (<s>{task.name}</s>) : task.name}
                         </li>

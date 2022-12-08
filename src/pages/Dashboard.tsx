@@ -1,17 +1,22 @@
-import Header from "../components/Header";
 import {Container, Main,} from "../components/Common";
 import {useCallback, useEffect, useState} from "react";
 import {getDashboard, getTasks} from "../services/api";
 import NoTask from "../components/tasks/NoTask";
 import CreateTask from "../components/tasks/CreateTask";
-import DashboardStats from "../components/DashboardStats";
-import AllTasks from "../components/tasks/AllTasks";
 import {addTasks, selectHasTasks} from "../store/redux/taskSlice";
 import {useAppDispatch, useAppSelector} from "../store/hooks";
 import Skeleton from "../components/Skeleton";
 import {setDashboardStats} from "../store/redux/dashboardSlice";
 import {selectAuthUser} from "../store/redux/userSlice";
 import {useNavigate} from "react-router-dom";
+import DashboardStats from "../components/DashboardStats";
+import AllTasks from "../components/tasks/AllTasks";
+import Header from "../components/Header";
+
+export interface ModalState {
+    open: boolean;
+    id?: string | undefined;
+}
 
 export default function Dashboard() {
     const dispatch = useAppDispatch();
@@ -20,12 +25,13 @@ export default function Dashboard() {
     const authUser = useAppSelector(selectAuthUser);
     let navigate = useNavigate();
 
-    const [modal, setModal] = useState({
+    const [modal, setModal] = useState<ModalState>({
         open: false,
-        id: null,
+        id: '',
     });
 
     const retrieveDashboardData = useCallback(async () => {
+        // @ts-ignore
         let {data: {latestTasks, tasksCompleted, totalTasks}} = await getDashboard();
 
         dispatch(setDashboardStats({
@@ -38,6 +44,7 @@ export default function Dashboard() {
     }, [authUser]);
 
     const retrieveTasksData = useCallback(async () => {
+        // @ts-ignore
         const {data: {tasks}} = await getTasks();
 
         dispatch(addTasks(tasks))
@@ -66,7 +73,7 @@ export default function Dashboard() {
             {modal.open && (
                 <CreateTask
                     modal={modal}
-                    handleOpenModal={(open: boolean) => setModal({open, id: null})}
+                    handleOpenModal={(open: boolean) => setModal({open})}
                 />
             )}
 
@@ -77,13 +84,12 @@ export default function Dashboard() {
                             <DashboardStats/>
 
                             <AllTasks
-                                modal={modal}
-                                handleOpenModal={(open: boolean, id: string) => setModal({open, id})}
+                                handleOpenModal={(open: boolean, id?: string | undefined) => setModal({open, id})}
                                 retrieveDashboardData={retrieveDashboardData}
                             />
                         </Container>
                     ) : (
-                        <NoTask handleOpenModal={(open: boolean) => setModal({open, id: null})}/>
+                        <NoTask handleOpenModal={(open: boolean) => setModal({open})}/>
                     )
                 )}
             </Main>

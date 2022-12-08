@@ -5,7 +5,7 @@ import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {removeTask, selectHasTasks, toggleTaskComplete} from "../../store/redux/taskSlice";
 
 interface AllTaskProps {
-    handleOpenModal: () => void;
+    handleOpenModal: (open: boolean, id?: string | undefined) => void;
     retrieveDashboardData: () => void;
 }
 
@@ -20,7 +20,8 @@ export default function AllTasks({handleOpenModal, retrieveDashboardData}: AllTa
 
     const hasTasks = useAppSelector(selectHasTasks);
 
-    const handleToggleTaskComplete = async (id, completed) => {
+    const handleToggleTaskComplete = async (id: string, completed: boolean) => {
+        // @ts-ignore
         let {data: {task}} = await updateTask({id, completed});
 
         dispatch(toggleTaskComplete(task))
@@ -31,6 +32,7 @@ export default function AllTasks({handleOpenModal, retrieveDashboardData}: AllTa
     }
 
     const handleDeleteTask = async (id: string) => {
+        // @ts-ignore
         const {data: {task: {_id}}} = await deleteTask(id);
 
         dispatch(removeTask(_id));
@@ -67,7 +69,7 @@ export default function AllTasks({handleOpenModal, retrieveDashboardData}: AllTa
             </div>
 
             <Card smBorder shadow={'md'} className={'task-list mt-10 px-24'}>
-                {hasTasks ? tasks.map((task, index) => (
+                {hasTasks ? tasks.map((task) => (
                     <div
                         className={'task-item flex justify-between items-start py-24'}
                         key={task._id}

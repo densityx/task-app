@@ -2,6 +2,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AppState} from "../store";
 
 export interface TaskState {
+    _id: string;
     name: string;
     completed: boolean;
 }
@@ -28,7 +29,7 @@ export const taskSlice = createSlice({
             });
         },
 
-        addOrUpdateTask: (state, action: PayloadAction<{}>) => {
+        addOrUpdateTask: (state, action: PayloadAction<{ type: string, task: TaskState }>) => {
             if (action.payload.type === 'create') {
                 state.tasks.push(action.payload.task)
             } else {
