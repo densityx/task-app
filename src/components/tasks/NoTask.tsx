@@ -1,6 +1,10 @@
 import {Button, Card, Heading} from "../Common";
 
-export default function NoTask({handleOpenModal}) {
+interface NoTaskStats {
+    handleOpenModal: (open: boolean) => void
+}
+
+export default function NoTask({handleOpenModal}: NoTaskStats) {
     return (
         <Card smBorder shadow={'sm'} className={'flex flex-column items-center w-304 p-37'}>
             <Heading className={'text-center'}>You have no task.</Heading>

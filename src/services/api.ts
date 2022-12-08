@@ -1,7 +1,7 @@
 import axios, {AxiosRequestConfig} from "axios";
 
 /**
- * Axios Instance
+ * Configure custom axios Instance
  */
 const axiosInstance = axios.create({
     baseURL: `https://dev-dl.tdcx.com:3092`,
@@ -10,9 +10,9 @@ const axiosInstance = axios.create({
     }
 });
 
-/** ======================================
+/**
  * Interceptors the axios request
- * ======================================= */
+ */
 axiosInstance.interceptors.request.use((requestConfig: AxiosRequestConfig) => {
     if (sessionStorage.getItem('persistantState')) {
         // @ts-ignore
@@ -41,7 +41,7 @@ export const performLogin = async ({name, key}: { name: string, key: string }) =
 };
 
 /**
- * Get dashboard data
+ * Get dashboard data from API
  */
 export const getDashboard = async () => {
     return await axiosInstance.get(`/dashboard`)
@@ -51,7 +51,7 @@ export const getDashboard = async () => {
 };
 
 /**
- * Get all tasks
+ * Get all tasks from API
  */
 export const getTasks = async () => {
     return await axiosInstance.get(`/tasks`)
@@ -61,7 +61,9 @@ export const getTasks = async () => {
 };
 
 /**
- * Create new task
+ * Create new task with API
+ *
+ * @param data
  */
 export const createTask = async (data: any) => {
     return await axiosInstance.post(`/tasks`, {
@@ -74,7 +76,9 @@ export const createTask = async (data: any) => {
 };
 
 /**
- * Update existing task
+ * Update existing task with API
+ *
+ * @param data
  */
 export const updateTask = async (data: any) => {
     return await axiosInstance.put(`/tasks/${data.id}`, {
@@ -87,7 +91,9 @@ export const updateTask = async (data: any) => {
 };
 
 /**
- * Delete existing task
+ * Delete existing task from API
+ *
+ * @param id
  */
 export const deleteTask = async (id: string) => {
     return await axiosInstance.delete(`/tasks/${id}`)

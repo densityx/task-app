@@ -3,14 +3,18 @@ import {useCallback, useEffect, useState} from "react";
 import {createTask, updateTask} from "../../services/api";
 import {useClickOutside} from "@mantine/hooks";
 import {addOrUpdateTask} from "../../store/redux/taskSlice";
-import {useAppDispatch} from "../../store/hooks";
-import {useSelector} from "react-redux";
+import {useAppDispatch, useAppSelector} from "../../store/hooks";
 
-export default function CreateTask({modal, handleOpenModal}) {
+interface CreateTaskProps {
+    modal: boolean;
+    handleOpenModal: (open: boolean) => void;
+}
+
+export default function CreateTask({modal, handleOpenModal}: CreateTaskProps) {
     const dispatch = useAppDispatch();
     const ref = useClickOutside(() => handleOpenModal(false));
     const [task, setTask] = useState('');
-    const taskToBeEdited = useSelector(state => state.task.tasks.find(task => task._id === modal.id));
+    const taskToBeEdited = useAppSelector(state => state.task.tasks.find(task => task._id === modal.id));
 
     const handleUpdateOrCreate = useCallback(async () => {
         let {data, status} = taskToBeEdited?._id

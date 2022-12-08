@@ -1,5 +1,5 @@
-import {Card, Container, LoadingBar} from "./Common";
 import React from "react";
+import {Card, Container, LoadingBar} from "./Common";
 
 export default function Skeleton() {
     return (

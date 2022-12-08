@@ -1,5 +1,6 @@
 import styled from '@emotion/styled'
 
+/** color const */
 const whiteColor = '#ffffff';
 const primaryColor = '#5285EC';
 const paperColor = '#FFFFFF';
@@ -13,20 +14,27 @@ const inputPlaceholderColor = '#7A7D7E';
 const navbarMenuColor = '#6D8187';
 const piePendingColor = '#E8ECEC';
 
+/** spacing const */
 const smSpacing = '8px';
 const mdSpacing = '12px';
 const lgSpacing = '24px';
 
+/** line height const */
 const lineHeight = '18px';
 const lgLineHeight = '24px';
 
+/** font size const */
 const fontSize = '14px';
 const lgFontSize = '20px';
 
+/** breakpoints const */
 const breakpoints = [640, 1024];
 
 const mq = breakpoints.map(bp => `@media (min-width: ${bp}px)`)
 
+/**
+ * All styled components
+ * */
 export const Main = styled.main((props: { loginPage?: boolean }) => ({
     display: 'flex',
     flexDirection: 'column',
@@ -151,7 +159,6 @@ export const Heading = styled.h2({
     fontWeight: 500,
 })
 
-
 export const Navbar = styled.nav({
     paddingTop: mdSpacing,
     paddingBottom: mdSpacing,
@@ -176,7 +183,6 @@ export const Pie = styled.div((props: { done: number }) => ({
     borderRadius: '50%',
     transform: 'rotate(90deg)'
 }))
-
 
 export const LoadingBar = styled.div((props: { width: number }) => ({
     width: `${props.width}%`,

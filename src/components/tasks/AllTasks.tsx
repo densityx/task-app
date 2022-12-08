@@ -1,24 +1,24 @@
 import {Button, Card, Heading, SearchInput} from "../Common";
 import {useEffect, useState} from "react";
-import {deleteTask, getTasks, updateTask} from "../../services/api";
-import {useAppDispatch} from "../../store/hooks";
-import {
-    removeTask,
-    selectHasTasks,
-    toggleTaskComplete
-} from "../../store/redux/taskSlice";
-import {useSelector} from "react-redux";
+import {deleteTask, updateTask} from "../../services/api";
+import {useAppDispatch, useAppSelector} from "../../store/hooks";
+import {removeTask, selectHasTasks, toggleTaskComplete} from "../../store/redux/taskSlice";
 
-export default function AllTasks({modal, handleOpenModal, retrieveDashboardData}) {
+interface AllTaskProps {
+    handleOpenModal: () => void;
+    retrieveDashboardData: () => void;
+}
+
+export default function AllTasks({handleOpenModal, retrieveDashboardData}: AllTaskProps) {
     const dispatch = useAppDispatch();
     const [searchQuery, setSearchQuery] = useState('');
-    const tasks = useSelector((state) => {
+    const tasks = useAppSelector((state) => {
         return searchQuery
             ? state.task.tasks.filter(task => task.name.toLowerCase().includes(searchQuery.toLowerCase()))
             : state.task.tasks
     });
 
-    const hasTasks = useSelector(selectHasTasks);
+    const hasTasks = useAppSelector(selectHasTasks);
 
     const handleToggleTaskComplete = async (id, completed) => {
         let {data: {task}} = await updateTask({id, completed});

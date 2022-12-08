@@ -1,9 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import {Container, Navbar, NavbarMenu} from "./Common";
-import {useAppDispatch, useAppSelector} from "../store/hooks";
-import {clearUserData, selectAuthUser} from "../store/redux/userSlice";
-import {clearTasksData} from "../store/redux/taskSlice";
-import {clearDashboardData} from "../store/redux/dashboardSlice";
+import {useAppSelector} from "../store/hooks";
+import {selectAuthUser} from "../store/redux/userSlice";
 
 export default function Header() {
     const navigate = useNavigate();

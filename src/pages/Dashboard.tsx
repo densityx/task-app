@@ -9,9 +9,8 @@ import NoTask from "../components/tasks/NoTask";
 import CreateTask from "../components/tasks/CreateTask";
 import DashboardStats from "../components/DashboardStats";
 import AllTasks from "../components/tasks/AllTasks";
-import {useSelector} from "react-redux";
 import {addTasks, selectHasTasks} from "../store/redux/taskSlice";
-import {useAppDispatch} from "../store/hooks";
+import {useAppDispatch, useAppSelector} from "../store/hooks";
 import Skeleton from "../components/Skeleton";
 import {setDashboardStats} from "../store/redux/dashboardSlice";
 import {selectAuthUser} from "../store/redux/userSlice";
@@ -19,9 +18,9 @@ import {useNavigate} from "react-router-dom";
 
 export default function Dashboard() {
     const dispatch = useAppDispatch();
-    const hasTasks = useSelector(selectHasTasks);
+    const hasTasks = useAppSelector(selectHasTasks);
     const [loading, setLoading] = useState(false);
-    const authUser = useSelector(selectAuthUser);
+    const authUser = useAppSelector(selectAuthUser);
     let navigate = useNavigate();
 
     const [modal, setModal] = useState({
@@ -65,7 +64,7 @@ export default function Dashboard() {
 
     return (
         <>
-            <Header/>
+            {/*<Header/>*/}
 
             {modal.open && (
                 <CreateTask
