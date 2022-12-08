@@ -36,7 +36,7 @@ export default function Login() {
         if (status === 200) {
             navigate('/dashboard');
         }
-    }, []);
+    }, [name, id]);
 
     return (
         <Main loginPage>
